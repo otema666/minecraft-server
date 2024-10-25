@@ -1,6 +1,11 @@
-# Servidor de Minecraft
+<h1 style="text-align:center">Minecraft Server</h1>
 
 Este repositorio contiene la estructura y los scripts necesarios para instalar y gestionar un servidor de Minecraft no oficial. Se proporciona una configuración básica y fácil de usar para comenzar a jugar con cuentas no oficiales.
+
+
+<div style="text-align: center;">
+    <img style="width: 400px;" src="assets/logo.jpg" alt="Logo">
+</div>
 
 ## Requisitos
 - Raspberry Pi: Este servidor está diseñado para funcionar en una Raspberry Pi con Ubuntu Server.
