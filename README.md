@@ -30,8 +30,8 @@ Este repositorio contiene la estructura y los scripts necesarios para instalar y
 [Click aquí para ver la guía de instalación en el cliente](client.md)
 
 ## Configuración
-
-Los archivos de configuración se encuentran en la carpeta config/. Puedes editar los archivos .yml según tus preferencias.
+- La configuración principal del servidor se encuentra en el archivo [server.properties](server.properties)
+- Los archivos de configuración se encuentran en la carpeta [config/](config/). Puedes editar los archivos .yml según tus preferencias.
 
 ### Ejemplos de configuración:
 
