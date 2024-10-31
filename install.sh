@@ -23,7 +23,7 @@ sudo apt install -y openjdk-21-jdk
 
 # Descargar el archivo JAR de PaperMC
 echo -e "${GREEN}[+] Downloading PaperMC server jar...${NC}"
-wget https://api.papermc.io/v2/projects/paper/versions/1.21.1/builds/128/downloads/paper-1.21.1-128.jar -O paper.jar
+wget https://api.papermc.io/v2/projects/paper/versions/1.21.1/builds/128/downloads/paper-1.21.1-128.jar
 
 # Aceptar el EULA
 echo "eula=true" > eula.txt
