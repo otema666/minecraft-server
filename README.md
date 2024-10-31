@@ -39,10 +39,16 @@ Este repositorio contiene la estructura y los scripts necesarios para instalar y
 - permissions.yml: Configuraciones de permisos para usuarios.
 
 ## Plugins
+El servidor cuenta con estos pluguins:
+* [BlueMap](plugins/bluemap-5.4-paper.jar): Crea un mapa 3D del mundo de Minecraft para visualizar en un navegador.
+* [LuckPerms](plugins/LuckPerms-Bukkit-5.4.131.jar): Sistema de gestión de permisos para controlar accesos de jugadores y grupos.
+* [MiniModt](plugins/minimotd-bukkit-2.1.3.jar): Personaliza el mensaje del día (MOTD) que aparece en la lista de servidores.
+
 Para la guía de instalación de plugins, consultar estas páginas:
 
 * [docs.papermc.io](https://docs.papermc.io/paper/next-steps)
 * [raspberrytips.es](https://raspberrytips.es/minecraft-servidor-raspberry-pi/)
+
 
 ## Uso de cuentas no oficiales
 
