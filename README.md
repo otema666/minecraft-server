@@ -46,6 +46,7 @@ El servidor cuenta con estos pluguins:
 
 Para la guía de instalación de plugins, consultar estas páginas:
 
+* [Hangar de Plugins](https://hangar.papermc.io/paper)
 * [docs.papermc.io](https://docs.papermc.io/paper/next-steps)
 * [raspberrytips.es](https://raspberrytips.es/minecraft-servidor-raspberry-pi/)
 
