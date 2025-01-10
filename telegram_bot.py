@@ -4,7 +4,8 @@ import subprocess
 
 GROUP_CHAT_ID = <YOUR_GROUP_CHAT_ID>
 BOT_TOKEN = "<YOUR_BOT_TOKEN>"
-START_COMMAND = "screen -S minecraft -d -m java -Xmx2048M -jar paper-1.21.1-128.jar nogui"
+START_COMMAND = 'screen -S minecraft -d -m bash -c "java -Xmx2048M -jar paper-1.21.1-128.jar nogui | tee server_log.log"'
+
 
 async def start_server(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message.chat_id == GROUP_CHAT_ID:
