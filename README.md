@@ -39,10 +39,15 @@ Este repositorio contiene la estructura y los scripts necesarios para instalar y
 - permissions.yml: Configuraciones de permisos para usuarios.
 
 ## Plugins
-El servidor cuenta con estos pluguins:
+El servidor cuenta con estos plugins:
+
 * [BlueMap](plugins/bluemap-5.4-paper.jar): Crea un mapa 3D del mundo de Minecraft para visualizar en un navegador.
-* [LuckPerms](plugins/LuckPerms-Bukkit-5.4.131.jar): Sistema de gestión de permisos para controlar accesos de jugadores y grupos.
-* [MiniModt](plugins/minimotd-bukkit-2.1.3.jar): Personaliza el mensaje del día (MOTD) que aparece en la lista de servidores.
+* [MiniMotd](plugins/minimotd-bukkit-2.1.3.jar): Personaliza el mensaje del día (MOTD) que aparece en la lista de servidores.
+* [ImageFrame](plugins/ImageFrame-1.7.13.0.jar): Permite colocar imágenes directamente en marcos en el juego.
+* [QualityArmory](plugins/QualityArmory.jar): Añade armas de fuego y mejoras al sistema de combate en Minecraft.
+* [DeathChest](plugins/deathchest.jar): Genera cofres en el lugar donde un jugador muere, guardando sus pertenencias.
+* [TabTPS](plugins/tabtps-spigot-1.3.26.jar): Muestra estadísticas como TPS y uso de memoria en la lista de jugadores (tabulador).
+
 
 Para la guía de instalación de plugins, consultar estas páginas:
 
