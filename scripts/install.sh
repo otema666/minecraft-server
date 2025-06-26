@@ -23,7 +23,6 @@ else
   sudo apt install -y openjdk-21-jdk
 fi
 
-
 # Configurar Java predeterminado (opcional)
 #sudo update-alternatives --config java
 
@@ -52,11 +51,11 @@ fi
 
 # 4) Construimos la URL y descargamos
 DOWNLOAD_URL="https://api.papermc.io/v2/projects/paper/versions/${VERSION}/builds/${BUILD_NUM}/downloads/${JAR_NAME}"
-wget -qO paper.jar "$DOWNLOAD_URL"
+wget -qO "paper.jar" "$DOWNLOAD_URL"
 
 echo -e "${GREEN}[+] Downloaded ${JAR_NAME}${NC}"
 
 # Aceptar el EULA
-echo "eula=true" > eula.txt
+echo "eula=true" > "eula.txt"
 
 echo -e "${GREEN}[+] Installation complete!${NC}"

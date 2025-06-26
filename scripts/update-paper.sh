@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# 0) Verificar que el servidor no esté en ejecución
+if pgrep -f "java.*-Xmx.*-jar paper\.jar nogui" >/dev/null; then
+  echo "ERROR: El servidor está en ejecución. Deténlo antes de actualizar."
+  exit 1
+fi
+
 # Versión de Minecraft/Paper que quieres usar
 PAPER_VERSION="1.21.1"
 
 # Directorio base del servidor (ajusta si quieres otro)
-SERVER_DIR="$(cd "$(dirname "$0")" && pwd)"
+SERVER_DIR="$(pwd)"
 
 # Comprobamos que jq está instalado
 if ! command -v jq &>/dev/null; then
