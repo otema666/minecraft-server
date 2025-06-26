@@ -47,7 +47,7 @@ El servidor cuenta con estos plugins:
 * [QualityArmory](plugins/QualityArmory.jar): Añade armas de fuego y mejoras al sistema de combate en Minecraft.
 * [DeathChest](plugins/deathchest.jar): Genera cofres en el lugar donde un jugador muere, guardando sus pertenencias.
 * [TabTPS](plugins/tabtps-spigot-1.3.26.jar): Muestra estadísticas como TPS y uso de memoria en la lista de jugadores (tabulador).
-
+* [Chunky](plugins/chunky-1.3.0.jar): Permite la generación de terrenos de manera eficiente y optimizada, mejorando el rendimiento del servidor.
 
 Para la guía de instalación de plugins, consultar estas páginas:
 

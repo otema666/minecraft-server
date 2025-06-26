@@ -5,7 +5,7 @@ NC='\033[0m'
 
 # Detener el servidor de Minecraft (si está en ejecución)
 echo -e "${GREEN}Stopping Minecraft server...${NC}"
-pkill -f paper-1.21.1-128.jar || echo -e "${GREEN}No running Minecraft server found.${NC}"
+pkill -f "paper-.*\.jar" || echo -e "${GREEN}No running Minecraft server found.${NC}"
 
 # Desinstalar Java
 echo -e "${GREEN}Uninstalling default JRE...${NC}"
