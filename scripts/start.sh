@@ -55,3 +55,4 @@ fi
 
 echo -e "${GREEN}[+] Servidor iniciado.${RESET}"
 echo -e "${CYAN}[-] Para ver la consola: ${BOLD}screen -r minecraft${RESET}"
+screen -r minecraft
