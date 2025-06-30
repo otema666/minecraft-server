@@ -13,8 +13,8 @@ if [[ ! -f paper.jar ]]; then
 fi
 
 # Asignación de memoria segura
-XMS="512M"
-XMX="1024M"
+XMS="1536M"
+XMX="1536M"
 
 echo -e "${CYAN}${BOLD}Iniciando servidor:${RESET}"
 echo -e "  -Xms = ${YELLOW}${XMS}${RESET}"
