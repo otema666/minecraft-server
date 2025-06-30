@@ -191,83 +191,95 @@ def update_minimotd_conf(file_path, max_players):
     except Exception as e:
         print_error(f"al actualizar {file_path}: {e}")
 
-def optimize_bluemap_plugin_conf(file_path):
-    """Optimizes the plugins/BlueMap/plugin.conf file using regex."""
+def optimize_bluemap_maps_conf(file_path):
+    """Optimizes the plugins/BlueMap/maps/world.conf file with desired settings."""
     print_status(f"Optimizando {file_path} (usando regex)...")
-    convert_tabs_to_spaces(file_path) # Ensure no tabs before reading
+    convert_tabs_to_spaces(file_path)
 
     try:
-        with open(file_path, 'r') as f:
+        with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # --- Configurations belonging to plugin.conf ---
-        # Regex to find the key at the beginning of the line (with possible leading spaces)
-        # and replace the value after the colon and a space.
-
-        content = re.sub(r"^\s*live-player-markers:\s*.*", "live-player-markers: true", content, flags=re.MULTILINE)
-        content = re.sub(r"^\s*hidden-game-modes:\s*\[.*?\]", 'hidden-game-modes: ["spectator"]', content, flags=re.MULTILINE | re.DOTALL)
-        content = re.sub(r"^\s*hide-vanished:\s*.*", "hide-vanished: true", content, flags=re.MULTILINE)
-        content = re.sub(r"^\s*hide-invisible:\s*.*", "hide-invisible: true", content, flags=re.MULTILINE)
-        content = re.sub(r"^\s*hide-sneaking:\s*.*", "hide-sneaking: true", content, flags=re.MULTILINE)
-        content = re.sub(r"^\s*hide-below-sky-light:\s*.*", "hide-below-sky-light: 0", content, flags=re.MULTILINE)
-        content = re.sub(r"^\s*hide-below-block-light:\s*.*", "hide-below-block-light: 0", content, flags=re.MULTILINE)
-        content = re.sub(r"^\s*hide-different-world:\s*.*", "hide-different-world: true", content, flags=re.MULTILINE)
-        content = re.sub(r"^\s*write-markers-interval:\s*.*", "write-markers-interval: 0", content, flags=re.MULTILINE)
-        content = re.sub(r"^\s*write-players-interval:\s*.*", "write-players-interval: 0", content, flags=re.MULTILINE)
-        content = re.sub(r"^\s*skin-download:\s*.*", "skin-download: false", content, flags=re.MULTILINE)
+        # Enable 3D views and high-res, disable flat view
+        content = re.sub(r"^\s*enable-perspective-view:.*", "enable-perspective-view: true", content, flags=re.MULTILINE)
+        content = re.sub(r"^\s*enable-free-flight-view:.*", "enable-free-flight-view: true", content, flags=re.MULTILINE)
+        content = re.sub(r"^\s*enable-hires:.*", "enable-hires: true", content, flags=re.MULTILINE)
         content = re.sub(r"^\s*player-render-limit:\s*.*", "player-render-limit: 1", content, flags=re.MULTILINE)
-        content = re.sub(r"^\s*full-update-interval:\s*.*", "full-update-interval: 2880", content, flags=re.MULTILINE)
+        content = re.sub(r"^\s*enable-flat-view:.*", "enable-flat-view: false", content, flags=re.MULTILINE)
 
-
-        with open(file_path, 'w') as f:
+        with open(file_path, 'w', encoding='utf-8') as f:
             f.write(content)
         print_success(f"{file_path} optimizado.")
     except FileNotFoundError:
         print_error(f"No se encontró el archivo {file_path}.")
     except Exception as e:
-        print_error(f"al optimizar {file_path}: {e}")
+        print_error(f"Error al optimizar {file_path}: {e}")
 
 def optimize_bluemap_core_conf(file_path):
     """Optimizes the plugins/BlueMap/core.conf file using regex."""
     print_status(f"Optimizando {file_path} (usando regex)...")
-    convert_tabs_to_spaces(file_path) # Ensure no tabs before reading
+    convert_tabs_to_spaces(file_path)
 
     try:
-        with open(file_path, 'r') as f:
+        with open(file_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
-        # --- Configurations belonging to core.conf ---
-        # Render threads for map-updates (number of CPU cores to use).
-        # Important for performance on Raspberry Pi.
-        content = re.sub(r"^\s*render-thread-count:\s*.*", "render-thread-count: 4", content, flags=re.MULTILINE)
-
-        # Scan for mod resources (can be resource-intensive if many mods).
-        content = re.sub(r"^\s*scan-for-mod-resources:\s*.*", "scan-for-mod-resources: false", content, flags=re.MULTILINE)
-
-        # Metrics reporting.
-        content = re.sub(r"^\s*metrics:\s*.*", "metrics: false", content, flags=re.MULTILINE)
-
-        # Live updates: Disable for performance.
-        content = re.sub(r"^\s*live-updates:\s*.*", "live-updates: false", content, flags=re.MULTILINE)
-
-        # Compression level for map data (0-9).
-        # We assume 'compression-level' is a direct key or under a 'data:' block
-        # that can be handled by a simple line replacement.
-        content = re.sub(r"^\s*compression-level:\s*.*", "  compression-level: 7", content, flags=re.MULTILINE)
-
-        # log: Disable debug log file to reduce disk I/O.
-        # This regex matches the entire `log:` block, including its contents,
-        # and replaces it with an empty block `log: {}`.
+        # Core settings
+        content = re.sub(r"^\s*accept-download:.*", "accept-download: true", content, flags=re.MULTILINE)
+        content = re.sub(r"^\s*render-thread-count:.*", "render-thread-count: 4", content, flags=re.MULTILINE)
+        content = re.sub(r"^\s*scan-for-mod-resources:.*", "scan-for-mod-resources: false", content, flags=re.MULTILINE)
+        content = re.sub(r"^\s*metrics:.*", "metrics: false", content, flags=re.MULTILINE)
         content = re.sub(r"^\s*log:\s*\{.*?\}", "log: {}", content, flags=re.MULTILINE | re.DOTALL)
 
-
-        with open(file_path, 'w') as f:
+        with open(file_path, 'w', encoding='utf-8') as f:
             f.write(content)
         print_success(f"{file_path} optimizado.")
     except FileNotFoundError:
         print_error(f"No se encontró el archivo {file_path}.")
     except Exception as e:
-        print_error(f"al optimizar {file_path}: {e}")
+        print_error(f"Error al optimizar {file_path}: {e}")
+
+def optimize_bluemap_plugin_conf(file_path):
+    print_status(f"Optimizing plugin config: {file_path}")
+    convert_tabs_to_spaces(file_path)
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            lines = f.readlines()
+        output = []
+        for line in lines:
+            if line.startswith("live-player-markers:"):
+                output.append("live-player-markers: true\n")
+            elif line.startswith("hidden-game-modes:"):
+                output.append('hidden-game-modes: ["spectator"]\n')
+            elif line.startswith("hide-vanished:"):
+                output.append("hide-vanished: true\n")
+            elif line.startswith("hide-invisible:"):
+                output.append("hide-invisible: true\n")
+            elif line.startswith("hide-sneaking:"):
+                output.append("hide-sneaking: true\n")
+            elif line.startswith("hide-below-sky-light:"):
+                output.append("hide-below-sky-light: 0\n")
+            elif line.startswith("hide-below-block-light:"):
+                output.append("hide-below-block-light: 0\n")
+            elif line.startswith("hide-different-world:"):
+                output.append("hide-different-world: true\n")
+            elif line.startswith("write-markers-interval:"):
+                output.append("write-markers-interval: 0\n")
+            elif line.startswith("write-players-interval:"):
+                output.append("write-players-interval: 0\n")
+            elif line.startswith("skin-download:"):
+                output.append("skin-download: false\n")
+            elif line.startswith("player-render-limit:"):
+                output.append("player-render-limit: 1\n")
+            elif line.startswith("full-update-interval:"):
+                output.append("full-update-interval: 2880\n")
+            else:
+                output.append(line)
+        with open(file_path, 'w', encoding='utf-8') as f:
+            f.writelines(output)
+        print_success(f"Plugin config optimized: {file_path}")
+    except Exception as e:
+        print_error(f"Error optimizing plugin config {file_path}: {e}")
 
 def optimize_bluemap_webserver_conf(file_path):
     """Optimizes the plugins/BlueMap/webserver.conf file by removing the log block."""
@@ -344,6 +356,8 @@ def main():
 
     # 7) Update BlueMap's webserver.conf (using regex)
     optimize_bluemap_webserver_conf(BLUEMAP_WEBSERVER_CONF)
+    optimize_bluemap_maps_conf("plugins/BlueMap/maps/world.conf")
+
 
     print_status("\n🎉 ¡Configuración completada y optimizada para rendimiento y jugabilidad!", Fore.LIGHTMAGENTA_EX + Style.BRIGHT)
 
