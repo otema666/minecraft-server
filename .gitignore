@@ -5,6 +5,11 @@
 !*.md
 !*.py
 
+!plugins/
 !plugins/*.jar
+
+!assets/
 !assets/*
+
+!scripts/
 !scripts/*
