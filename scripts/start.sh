@@ -54,5 +54,8 @@ if ! screen -S minecraft -d -m java \
 fi
 
 echo -e "${GREEN}[+] Servidor iniciado.${RESET}"
-echo -e "${CYAN}[-] Para ver la consola: ${BOLD}screen -r minecraft${RESET}"
+echo
+echo -e "${CYAN}[-]Para ver la consola pulse ${BOLD}ENTER${CYAN}.${RESET}"
+read
+
 screen -r minecraft
