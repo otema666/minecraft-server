@@ -24,6 +24,14 @@ def print_warning(message):
     """Prints a warning message."""
     print(Fore.YELLOW + "ADVERTENCIA: " + message + Style.RESET_ALL)
 
+def rcon_passw():
+    rpath = "../rcon_password.txt"
+    if os.path.exists(rpath):
+        with open(rpath, "r") as f:
+            return f.read().strip()
+    else:
+        return "default_password"
+
 def get_user_input(prompt, default=None):
     """Gets user input with an optional default value."""
     while True:
@@ -58,8 +66,123 @@ def convert_tabs_to_spaces(file_path, spaces_per_tab=2):
     except Exception as e:
         print_error(f"al limpiar tabulaciones en {file_path}: {e}")
 
+def configure_seed(file_path, seed_data):
+    try:
+        with open(file_path, 'r') as f:
+            lines = f.readlines()
+        with open(file_path, 'w') as f:
+            for line in lines:
+                if line.startswith("level-seed="):
+                    f.write(f"level-seed={seed_data['seed']}\n")
+                else:
+                    f.write(line)
+                
+        print_success(f"{file_path} optimizado.")
+    except FileNotFoundError:
+        print_error(f"No se encontró el archivo {file_path}.")
+    except Exception as e:
+        print_error(f"al optimizar {file_path}: {e}")
 
-def optimize_server_properties(file_path, max_players):
+def get_seed_data():
+    seeds = [
+        {
+            "id": "1",
+            "nombre": "Cráter Anillo Glaciar",
+            "descripcion": "Cráter circular con paredes cubiertas de nieve y hielo. Un paisaje espectacular con vistas impresionantes.",
+            "imagen": "https://www.gameskinny.com/wp-content/uploads/2025/01/Minecraft-top-1-21-seeds-Deep-Dark-mountain.jpg",
+            "seed": "4826836514737034883",
+            "coordenadas": [290, 95, -205],
+            "tipo": "❄️  Ártico/Montañas",
+            "dificultad": "Media"
+        },
+        {
+            "id": "2",
+            "nombre": "Isla de Champiñones",
+            "descripcion": "Las Islas de Champiñones son un bioma muy seguro en Minecraft, ya que los mobs hostiles no aparecen de forma natural en sus bloques de Micelio. Ideal para vivir una vida tranquila.",
+            "imagen": "https://www.gameskinny.com/wp-content/uploads/2024/12/Minecraft-Best-1-21-seeds-Mushroom-sanctuary.jpg",
+            "seed": "-4321675196973609001",
+            "coordenadas": [319, 73, -289],
+            "tipo": "🍄 Isla/Océano",
+            "dificultad": "Fácil"
+        },
+        {
+            "id": "3",
+            "nombre": "Lago del Cañón Rojo",
+            "descripcion": "Cañón de tonos rojizos con un gran lago azul en su centro, rodeado por paredes de tierra. Perfecto para construcciones.",
+            "imagen": "https://www.pcgamesn.com/wp-content/sites/pcgamesn/2024/08/minecraft-seeds-badlands-lake-550x309.jpg",
+            "seed": "7598363429859286340",
+            "coordenadas": [-123, 118, 24],
+            "tipo": "🏜️ Badlands/Mesa",
+            "dificultad": "Media"
+        }
+    ]
+
+    # Header visual mejorado
+    print_status("\n" + "="*80, Fore.CYAN)
+    print_status("🌱 SELECTOR DE SEMILLAS MINECRAFT 🌱", Fore.LIGHTGREEN_EX + Style.BRIGHT)
+    print_status("="*80, Fore.CYAN)
+    print_status("Selecciona una semilla para tu mundo:", Fore.YELLOW)
+    print_status("="*80 + "\n", Fore.CYAN)
+
+    # Mostrar semillas con mejor formato
+    for i, seed in enumerate(seeds):
+        # Separador entre semillas
+        if i > 0:
+            print(Fore.LIGHTBLACK_EX + "─" * 80)
+        
+        # Número y nombre destacado
+        print(f"{Fore.LIGHTCYAN_EX + Style.BRIGHT}[{seed['id']}] {Fore.LIGHTGREEN_EX + Style.BRIGHT}{seed['nombre']}")
+        
+        # Tipo y dificultad en línea
+        print(f"{Fore.MAGENTA}   🌍 Bioma: {Fore.WHITE}{seed['tipo']} {Fore.MAGENTA}| ⚡ Dificultad: {Fore.WHITE}{seed['dificultad']}")
+        
+        # Descripción formateada
+        print(f"{Fore.YELLOW}   📋 {Fore.WHITE}{seed['descripcion']}")
+        
+        # Coordenadas destacadas
+        coords_str = f"X: {seed['coordenadas'][0]}, Y: {seed['coordenadas'][1]}, Z: {seed['coordenadas'][2]}"
+        print(f"{Fore.LIGHTBLUE_EX}   📍 Coordenadas: {Fore.WHITE}{coords_str}")
+        
+        # Seed ID
+        print(f"{Fore.LIGHTBLACK_EX}   🔢 Seed: {seed['seed']}")
+        
+        print()  # Línea en blanco
+
+    # Separador final
+    print_status("="*80, Fore.CYAN)
+
+    while True:
+        try:
+            print_status("🎯 Selección:", Fore.LIGHTMAGENTA_EX)
+            seleccion = input(f"{Fore.YELLOW}➤ Ingresa el número de la semilla deseada (1-{len(seeds)}): {Style.RESET_ALL}")
+            seleccion_int = int(seleccion)
+            
+            # Buscar la semilla seleccionada
+            seed_seleccionada = None
+            for seed in seeds:
+                if int(seed['id']) == seleccion_int:
+                    seed_seleccionada = seed
+                    break
+
+            if seed_seleccionada:
+                # Confirmación visual mejorada
+                print_status("\n" + "="*60, Fore.GREEN)
+                print_success(f"✅ ¡Semilla seleccionada!")
+                print(f"{Fore.LIGHTGREEN_EX}🌱 Mundo: {Fore.WHITE + Style.BRIGHT}{seed_seleccionada['nombre']}")
+                print(f"{Fore.LIGHTBLUE_EX}🔢 Seed: {Fore.WHITE}{seed_seleccionada['seed']}")
+                print(f"{Fore.LIGHTCYAN_EX}📍 Spawn: {Fore.WHITE}X:{seed_seleccionada['coordenadas'][0]} Y:{seed_seleccionada['coordenadas'][1]} Z:{seed_seleccionada['coordenadas'][2]}")
+                print(f"{Fore.MAGENTA}🌍 Tipo: {Fore.WHITE}{seed_seleccionada['tipo']}")
+                print_status("="*60 + "\n", Fore.GREEN)
+                return seed_seleccionada
+            else:
+                print_error(f"❌ Número de semilla no válido. Por favor, ingresa un número entre 1 y {len(seeds)}.")
+                print()
+        except ValueError:
+            print_error("❌ Entrada no válida. Por favor, ingresa solo números.")
+            print()
+
+
+def optimize_server_properties(file_path, max_players, RCON_PASSWORD, selected_seed=None):
     """Optimizes the server.properties file."""
     print_status(f"\nOptimizando {file_path}...")
     try:
@@ -68,17 +191,16 @@ def optimize_server_properties(file_path, max_players):
 
         with open(file_path, 'w') as f:
             for line in lines:
-                # Use regex to replace desired lines
                 if line.startswith("max-players="):
                     f.write(f"max-players={max_players}\n")
                 elif line.startswith("view-distance="):
-                    f.write("view-distance=7\n")
+                    f.write("view-distance=11\n")
                 elif line.startswith("simulation-distance="):
-                    f.write("simulation-distance=5\n")
+                    f.write("simulation-distance=7\n")
                 elif line.startswith("entity-broadcast-range-percentage="):
                     f.write("entity-broadcast-range-percentage=50\n")
                 elif line.startswith("spawn-protection="):
-                    f.write("spawn-protection=0\n")
+                    f.write("spawn-protection=16\n")
                 elif line.startswith("spawn-animals="):
                     f.write("spawn-animals=true\n")
                 elif line.startswith("spawn-npcs="):
@@ -87,8 +209,20 @@ def optimize_server_properties(file_path, max_players):
                     f.write("online-mode=false\n")
                 elif line.startswith("save-user-cache-on-stop-only="):
                     f.write("save-user-cache-on-stop-only=true\n")
+                elif line.startswith("enforce-secure-profile="):
+                    f.write("enforce-secure-profile=false\n")
+                elif line.startswith("enable-rcon="):
+                    f.write(f"enable-rcon=true\n")
+                elif line.startswith("rcon.password="):
+                    f.write(f"rcon.password={RCON_PASSWORD}\n")
+                elif line.startswith("level-seed="):
+                    if selected_seed:
+                        f.write(f"level-seed={selected_seed['seed']}\n")
+                    else:
+                        f.write("level-seed=\n")
                 else:
                     f.write(line)
+
         print_success(f"{file_path} optimizado.")
     except FileNotFoundError:
         print_error(f"No se encontró el archivo {file_path}.")
@@ -434,7 +568,15 @@ def configure_tab_plugin(config_path, groups_path):
 
 def main():
     """Main function to run the optimization process."""
-    print_status("\n--- Iniciando optimización del servidor Minecraft ---", Fore.MAGENTA + Style.BRIGHT)
+    os.system('clear')
+    
+    # Header visual mejorado para el inicio
+    print()
+    print_status("=" * 80, Fore.LIGHTCYAN_EX)
+    print_status("🚀 CONFIGURADOR DE SERVIDOR MINECRAFT 🚀", Fore.LIGHTMAGENTA_EX + Style.BRIGHT)
+    print_status("=" * 80, Fore.LIGHTCYAN_EX)
+    print_status("🔧 Iniciando proceso de optimización automática...", Fore.YELLOW)
+    print_status("=" * 80, Fore.LIGHTCYAN_EX)
 
     # File paths
     PROPS_FILE = "server.properties"
@@ -442,26 +584,34 @@ def main():
     MOTD_CONF = "plugins/MiniMOTD/main.conf"
     BLUEMAP_PLUGIN_CONF = "plugins/BlueMap/plugin.conf"
     BLUEMAP_CORE_CONF = "plugins/BlueMap/core.conf"
-    BLUEMAP_WEBSERVER_CONF = "plugins/BlueMap/webserver.conf" # New file path
+    BLUEMAP_WEBSERVER_CONF = "plugins/BlueMap/webserver.conf"
     BLUEMAP_WORLD_CONF = "plugins/BlueMap/maps/world.conf"
     TAB_CONF = "plugins/TAB/config.yml"
     TAB_GROUPS_CONF = "plugins/TAB/groups.yml"
 
-    # 0) Check for required files
-    print_status("Verificando archivos requeridos...", Fore.YELLOW)
-    required_files = [PROPS_FILE, SPIGOT_FILE, MOTD_CONF, BLUEMAP_PLUGIN_CONF, BLUEMAP_CORE_CONF, BLUEMAP_WEBSERVER_CONF]
+    print_status("\n🔍 Verificando archivos requeridos...", Fore.LIGHTYELLOW_EX)
+    required_files = [PROPS_FILE, SPIGOT_FILE, MOTD_CONF, BLUEMAP_PLUGIN_CONF, BLUEMAP_CORE_CONF, BLUEMAP_WEBSERVER_CONF, BLUEMAP_WORLD_CONF, TAB_CONF, TAB_GROUPS_CONF]
     missing_files = [f for f in required_files if not os.path.exists(f)]
 
     if missing_files:
-        print_error("Faltan archivos requeridos para la optimización:")
+        print_error("❌ Faltan archivos requeridos para la optimización:")
         for f in missing_files:
-            print_error(f"  - {f}")
-        print_error("Asegúrate de que el script se ejecuta en el directorio raíz del servidor o que las rutas son correctas.")
+            print_error(f"  📄 {f}")
+        print_error("⚠️  Asegúrate de que el script se ejecuta en el directorio raíz del servidor o que las rutas son correctas.")
         exit(1)
-    print_success("Todos los archivos requeridos encontrados.")
+    print_success("✅ Todos los archivos requeridos encontrados.")
 
-    # 1) Request max-players
-    max_players_input = get_user_input("Introduce el valor de max-players (por defecto: 3): ", default="3")
+    # Sección de configuración de usuario
+    print_status("\n📋 CONFIGURACIÓN INICIAL", Fore.LIGHTGREEN_EX + Style.BRIGHT)
+    print_status("─" * 50, Fore.LIGHTGREEN_EX)
+    
+    max_players_input = get_user_input("👥 Introduce el valor de max-players (por defecto: 3): ", default="3")
+    RCON_PASSWORD = get_user_input("🔐 Introduce la contraseña de RCON: ", default=rcon_passw())
+    o = get_user_input("🌱 ¿Deseas usar una semilla personalizada? (y/n): ", default="n").strip().lower()
+    selected_seed = None
+    if o == 'y':
+        selected_seed = get_seed_data()
+
     try:
         max_players = int(max_players_input)
         if max_players <= 0:
@@ -470,7 +620,7 @@ def main():
         print_warning("El valor de max-players debe ser un número entero positivo. Usando 3 por defecto.")
         max_players = 3
 
-    optimize_server_properties(PROPS_FILE, max_players)
+    optimize_server_properties(PROPS_FILE, max_players, RCON_PASSWORD, selected_seed)
     optimize_spigot_yml(SPIGOT_FILE)
     update_minimotd_conf(MOTD_CONF, max_players)
     optimize_bluemap_plugin_conf(BLUEMAP_PLUGIN_CONF)
@@ -480,7 +630,14 @@ def main():
 
     configure_tab_plugin(TAB_CONF, TAB_GROUPS_CONF)
 
-    print_status("\n🎉 ¡Configuración completada y optimizada para rendimiento y jugabilidad!", Fore.LIGHTMAGENTA_EX + Style.BRIGHT)
+    # Mensaje de finalización mejorado
+    print_status("\n" + "=" * 80, Fore.LIGHTGREEN_EX)
+    print_status("🎉 ¡CONFIGURACIÓN COMPLETADA EXITOSAMENTE! 🎉", Fore.LIGHTGREEN_EX + Style.BRIGHT)
+    print_status("=" * 80, Fore.LIGHTGREEN_EX)
+    print_success("✅ Servidor optimizado para rendimiento y jugabilidad")
+    print_success("✅ Configuraciones aplicadas correctamente")
+    print_success("✅ ¡Tu servidor está listo para funcionar!")
+    print_status("=" * 80 + "\n", Fore.LIGHTGREEN_EX)
 
 if __name__ == "__main__":
     main()
