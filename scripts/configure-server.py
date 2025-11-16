@@ -376,15 +376,28 @@ def optimize_bluemap_core_conf(file_path):
 def optimize_bluemap_plugin_conf(file_path):
     print_status(f"\nOptimizando plugin config: {file_path}")
     convert_tabs_to_spaces(file_path)
+
     try:
         with open(file_path, 'r', encoding='utf-8') as f:
             lines = f.readlines()
+
         output = []
+        skip_block = False
+
         for line in lines:
-            if line.startswith("live-player-markers:"):
-                output.append("live-player-markers: true\n")
-            elif line.startswith("hidden-game-modes:"):
+            if skip_block:
+                if line.startswith(" ") or line.startswith("\t") or line.strip() in ["[", "]"] or '"' in line:
+                    continue
+                else:
+                    skip_block = False  # Terminó el bloque
+
+            if line.startswith("hidden-game-modes:"):
                 output.append('hidden-game-modes: ["spectator"]\n')
+                skip_block = True
+                continue
+
+            elif line.startswith("live-player-markers:"):
+                output.append("live-player-markers: true\n")
             elif line.startswith("hide-vanished:"):
                 output.append("hide-vanished: true\n")
             elif line.startswith("hide-invisible:"):
@@ -411,9 +424,11 @@ def optimize_bluemap_plugin_conf(file_path):
                 output.append(line)
         with open(file_path, 'w', encoding='utf-8') as f:
             f.writelines(output)
+
         print_success(f"Plugin config optimized: {file_path}")
     except Exception as e:
         print_error(f"Error optimizing plugin config {file_path}: {e}")
+
 
 def optimize_bluemap_webserver_conf(file_path):
     """Optimizes the plugins/BlueMap/webserver.conf file by removing the log block."""
